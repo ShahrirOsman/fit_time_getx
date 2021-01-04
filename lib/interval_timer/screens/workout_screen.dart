@@ -1,5 +1,5 @@
-import 'package:fit_time_getx/screens/duration_input_screen.dart';
-import 'package:fit_time_getx/state/timer_state.dart';
+import 'package:fit_time_getx/interval_timer/screens/duration_input_screen.dart';
+import 'package:fit_time_getx/interval_timer/state/timer_state.dart';
 import 'package:fit_time_getx/const.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +9,7 @@ class WorkoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final timerState = Get.put(TimerState());
-    timerState.start();
+     timerState.start();
     Screen.keepOn(true);
     return Obx(() {
       return Scaffold(
@@ -19,6 +19,16 @@ class WorkoutScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
+                timerState.durationText.value,
+                style: TextStyle(
+                  fontSize: 50.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              SizedBox(
+                height: 30.0,
+              ),
+              Text(
                 formatTime(timerState.timeLeft.value),
                 style: kTimeTextStyle,
               ),
@@ -26,21 +36,11 @@ class WorkoutScreen extends StatelessWidget {
                 height: 30.0,
               ),
               Text(
-                timerState.durationText.value,
-                style: TextStyle(
-                  fontSize: 50.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(
-                height: 30.0,
-              ),
-              Text(
-                'Elapsed: \n ${formatTime(timerState.totalTimeElapsed.value)}',
+                'Elapsed:\n${formatTime(timerState.totalTimeElapsed.value)}',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 40.0,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               SizedBox(
@@ -52,10 +52,10 @@ class WorkoutScreen extends StatelessWidget {
                   Column(
                     children: <Widget>[
                       Text(
-                        ' ${timerState.cyclesCount}/${timerState.cycles.value}',
+                        '${timerState.getCyclesCount()}/${timerState.cycles.value}',
                         style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 50,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       SizedBox(
@@ -73,10 +73,10 @@ class WorkoutScreen extends StatelessWidget {
                   Column(
                     children: <Widget>[
                       Text(
-                        ' ${timerState.setsCount}/${timerState.sets.value}',
+                        '${timerState.getSetsCount()}/${timerState.sets.value}',
                         style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 50,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       SizedBox(
@@ -96,40 +96,59 @@ class WorkoutScreen extends StatelessWidget {
               SizedBox(
                 height: 50.0,
               ),
-              Container(
-                child: !timerState.isRunning.value
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          FloatingActionButton(
+              !timerState.isRunning.value
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          height: 80,
+                          width: 80,
+                          child: FloatingActionButton(
                             heroTag: 'btn3',
                             backgroundColor: kAccentColor,
-                            child: Icon(Icons.refresh),
+                            child: Icon(
+                              Icons.refresh,
+                              size: 50,
+                            ),
                             onPressed: () {
                               timerState.reset();
                               Get.off(DurationInputScreen());
                             },
                           ),
-                          SizedBox(
-                            width: 80.0,
-                          ),
-                          FloatingActionButton(
+                        ),
+                        SizedBox(
+                          width: 80.0,
+                        ),
+                        Container(
+                          height: 80,
+                          width: 90,
+                          child: FloatingActionButton(
                             heroTag: 'btn1',
                             backgroundColor: kAccentColor,
-                            child: Icon(Icons.play_arrow_rounded),
+                            child: Icon(
+                              Icons.play_arrow_rounded,
+                              size: 50,
+                            ),
                             onPressed: () {
                               timerState.start();
                             },
                           ),
-                        ],
-                      )
-                    : FloatingActionButton(
+                        ),
+                      ],
+                    )
+                  : Container(
+                      height: 80,
+                      width: 90,
+                      child: FloatingActionButton(
                         heroTag: 'btn2',
                         backgroundColor: kAccentColor,
-                        child: Icon(Icons.pause),
+                        child: Icon(
+                          Icons.pause,
+                          size: 50,
+                        ),
                         onPressed: timerState.pause,
                       ),
-              ),
+                    ),
             ],
           ),
         ),

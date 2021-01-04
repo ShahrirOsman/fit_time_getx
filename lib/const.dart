@@ -6,9 +6,10 @@ const kPickerTextStyle = TextStyle(
 );
 
 const kTimeTextStyle = TextStyle(
-  fontSize: 80.0,
+  fontSize: 110.0,
   fontWeight: FontWeight.w900,
 );
+const kBodyTextStyle = TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold,);
 
 const kAccentColor = Color(0xFF27205F);
 
